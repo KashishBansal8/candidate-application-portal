@@ -1,8 +1,9 @@
+import JobListing from "./components/JobListing";
 
 function App() {
   return (
     <div>
-
+      <JobListing />
     </div>
   );
 }
