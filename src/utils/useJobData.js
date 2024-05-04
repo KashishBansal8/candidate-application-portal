@@ -4,7 +4,7 @@ import { JOB_DATA_URL } from "./constants";
 const useJobdata = () => {
     const [jobData, setJobData] = useState([]);
 
-    const fetchJobData = () => {
+    const fetchJobData = async () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -19,10 +19,9 @@ const useJobdata = () => {
             body
         };
 
-        fetch(JOB_DATA_URL, requestOptions)
-            .then((response) => response.text())
-            .then((result) => setJobData(result))
-            .catch((error) => console.error(error));
+        const data = await fetch(JOB_DATA_URL, requestOptions);
+        const jsonData = await data.json();
+        setJobData(jsonData);
     }
 
     useEffect(() => {
