@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { JOB_DATA_URL } from "./constants";
-import { addJobsData, updateLoadingJobdata } from "./jobDataSlice";
+import { addJobsData, updateFilteredJobsData, updateLoadingJobdata } from "./jobDataSlice";
 import { useDispatch } from "react-redux";
 
 const useJobdata = () => {
@@ -25,8 +25,10 @@ const useJobdata = () => {
 
         const data = await fetch(JOB_DATA_URL, requestOptions);
         const jsonData = await data.json();
-        setJobData(jsonData);
-        dispatch(addJobsData(jsonData));
+
+        setJobData(jsonData.jdList);
+        dispatch(addJobsData(jsonData.jdList));
+        dispatch(updateFilteredJobsData(jsonData.jdList));
         dispatch(updateLoadingJobdata(false));
     }
 

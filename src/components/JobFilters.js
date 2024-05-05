@@ -6,7 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from "@mui/material/TextField";
-import { experinece, noOfExployees, location, minBasePay, techStack } from '../utils/DropdownData';
+import { experinece, noOfExployees, location, minBasePay, techStack, jobRoles } from '../utils/DropdownData';
+import { useDispatch, useSelector } from 'react-redux';
+import { type } from '@testing-library/user-event/dist/type';
+import { updateFilteredJobsData } from '../utils/jobDataSlice';
 
 const JobFilters = () => {
     const [selectedRole, setSelectedRole] = useState([]);
@@ -16,6 +19,10 @@ const JobFilters = () => {
     const [selectedTechStack, setSelectedTechStack] = useState([]);
     const [selectedMinBasePay, setSelectedMinBasePay] = useState("");
     const [searchCompanyNameInput, setSearchCompanyNameInput] = useState("");
+
+    const jobsData = useSelector((store) => store.jobData.jobsData);
+    const filteredJobsData = useSelector((store) => store.jobData.filteredJobsData);
+    const dispatch = useDispatch();
 
     const handleMultiDropdownFilterValueChange = (event) => {
         const {
@@ -48,13 +55,43 @@ const JobFilters = () => {
         }
     };
 
-    const filterJobData = () => {
-        console.log("A")
-    }
+    useEffect(() => {
+        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
+        const filteredJobs = filterFromData?.filter((data) =>
+            selectedRole.some((role) => data.jobRole.toLowerCase().includes(role.toLowerCase())
+                || data.jobDetailsFromCompany.toLowerCase().includes(role.toLowerCase())
+            ));
+
+        dispatch(updateFilteredJobsData(filteredJobs))
+        console.log("exp", filteredJobs)
+    }, [selectedRole]);
 
     useEffect(() => {
-        filterJobData();
-    }, [selectedRole, selectedExperience, selectedLocation, selectedNoOfEmployees, selectedMinBasePay, selectedTechStack, searchCompanyNameInput])
+        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
+        const filteredJobs = filterFromData?.filter((data) => selectedExperience >= data.minExp && selectedExperience <= data.maxExp);
+
+        dispatch(updateFilteredJobsData(filteredJobs))
+        console.log("exp", filteredJobs)
+    }, [selectedExperience]);
+
+    useEffect(() => {
+        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
+        const filteredJobs = filterFromData?.filter((data) => selectedLocation.some((location) => location.toLowerCase().includes(data.location.toLowerCase()) || location.toLowerCase() === "in-office" && data.location.toLowerCase() !== "remote" ? data : ""
+        ));
+
+        dispatch(updateFilteredJobsData(filteredJobs))
+        console.log("loc", filteredJobs)
+    }, [selectedLocation]);
+
+    useEffect(() => {
+        if (!searchCompanyNameInput.length) {
+            dispatch(updateFilteredJobsData(jobsData))
+        }
+        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
+        const filteredJobs = filterFromData?.filter((data) => data.companyName.toLowerCase().includes(searchCompanyNameInput.toLowerCase()));
+
+        dispatch(updateFilteredJobsData(filteredJobs))
+    }, [searchCompanyNameInput]);
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -71,7 +108,7 @@ const JobFilters = () => {
                             value={selectedRole}
                             onChange={handleMultiDropdownFilterValueChange}
                         >
-                            {experinece?.map((name) => (
+                            {jobRoles?.map((name) => (
                                 <MenuItem
                                     key={name}
                                     value={name}

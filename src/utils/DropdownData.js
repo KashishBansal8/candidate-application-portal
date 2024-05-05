@@ -1,3 +1,14 @@
+export const jobRoles = [
+    "Frontend",
+    "IOS",
+    "Android",
+    "Backend",
+    "Python",
+    "AWS",
+    "FullStack",
+    "Data Engineer"
+]
+
 export const noOfExployees = [
     "1-10",
     "11-20",

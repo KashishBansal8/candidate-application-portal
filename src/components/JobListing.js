@@ -9,10 +9,13 @@ const JobListing = () => {
     const jobData = useJobdata();
 
     const isLoadingJobData = useSelector((store) => store.jobData.isLoadingJobData);
-    console.log("isLoadingJobData", isLoadingJobData)
+    const filteredJobsData = useSelector((store) => store.jobData.filteredJobsData);
+    // console.log("isLoadingJobData", isLoadingJobData, filteredJobsData)
 
-    const { jdList } = jobData;
-    console.log("jobData", jdList)
+    // const { jdList } = jobData;
+    // console.log("jobData", jobData)
+    // const jobsData = filteredJobsData.len/gth ? filteredJobsData : jobData;
+
     if (isLoadingJobData) {
         return (<h1>Loading...</h1>)
     }
@@ -20,7 +23,7 @@ const JobListing = () => {
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {
-                    jdList?.map((jobData, index) =>
+                    filteredJobsData?.map((jobData, index) =>
                         <Grid xs={6} sm={4} md={4} key={index}>
                             <JobCard jobData={jobData} />
                         </Grid>
