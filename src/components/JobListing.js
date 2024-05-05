@@ -3,12 +3,17 @@ import useJobdata from '../utils/useJobData'
 import JobCard from './JobCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useSelector } from 'react-redux';
 
 const JobListing = () => {
     const jobData = useJobdata();
+
+    const isLoadingJobData = useSelector((store) => store.jobData.isLoadingJobData);
+    console.log("isLoadingJobData", isLoadingJobData)
+
     const { jdList } = jobData;
     console.log("jobData", jdList)
-    if (!jobData) {
+    if (isLoadingJobData) {
         return (<h1>Loading...</h1>)
     }
     return (
