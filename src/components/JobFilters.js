@@ -8,7 +8,6 @@ import Select from '@mui/material/Select';
 import TextField from "@mui/material/TextField";
 import { experinece, noOfExployees, location, minBasePay, techStack, jobRoles } from '../utils/DropdownData';
 import { useDispatch, useSelector } from 'react-redux';
-import { type } from '@testing-library/user-event/dist/type';
 import { updateFilteredJobsData } from '../utils/jobDataSlice';
 import { updateExperience, updateLocation, updateMinBasePay, updateNoOfEmployees, updateRole, updateSearchCompanyName, updateTechStack } from '../utils/jobFilterSlice';
 import useJobdata from '../utils/useJobData';
@@ -98,12 +97,13 @@ const JobFilters = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={{ xs: 6, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {/* Role Filter */}
-                <Grid xs={1} md={2}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <Grid xs={2} md={2}>
+                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Role</InputLabel>
                         <Select
+                            autoWidth
                             labelId="demo-multiple-name-label"
                             id="demo-multiple-name"
                             multiple
@@ -124,10 +124,11 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* No of Employees */}
-                <Grid xs={1} md={2}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <Grid xs={2} md={2}>
+                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Number Of Employees</InputLabel>
                         <Select
+                            autoWidth
                             labelId="demo-multiple-name-label"
                             id="demo-multiple-name"
                             multiple
@@ -148,10 +149,11 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Experience */}
-                <Grid xs={1} md={2}>
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
+                <Grid xs={2} md={2}>
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }} >
                         <InputLabel htmlFor="demo-customized-select-label">Experience</InputLabel>
                         <Select
+                            autoWidth
                             labelId="demo-customized-select-label"
                             id="demo-customized-select"
                             name='experience'
@@ -167,8 +169,8 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Location */}
-                <Grid xs={1} md={2}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <Grid xs={2} md={2}>
+                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Remote</InputLabel>
                         <Select
                             labelId="demo-multiple-name-label"
@@ -191,8 +193,8 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Tech Stack */}
-                <Grid xs={1} md={2}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }}>
+                <Grid xs={2} md={2}>
+                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Tech Stack</InputLabel>
                         <Select
                             labelId="demo-multiple-name-label"
@@ -215,7 +217,7 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Min Base Pay */}
-                <Grid xs={1} md={2}>
+                <Grid xs={2} md={2}>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
                         <InputLabel htmlFor="demo-customized-select-label">Min Base Pay</InputLabel>
                         <Select

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
@@ -7,54 +8,58 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 
 const JobCard = ({ jobData }) => {
-    const { minJdSalaryInRupee, setMinJdSalaryInRupee } = useState(0);
-    const { maxJdSalaryInRupee, setMaxJdSalaryInRupee } = useState(0);
     const { companyName, jdLink, jdUid, jobDetailsFromCompany, jobRole, location, logoUrl, maxExp, maxJdSalary, minExp, minJdSalary, salaryCurrencyCode } = jobData;
 
-    // if (salaryCurrencyCode === "USD") {
-    //     const salary = maxJdSalary * 83;
-    //     // setMaxJdSalaryInRupee(1);
-    //     console.log(salary)
-    //     // setMinJdSalaryInRupee(minJdSalary * 83);
-    // }
-    // useEffect(() => {
-    //     setMaxJdSalaryInRupee((val) => val + 1);
-    // }, [])
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ minWidth: 250, minHeight: 435 }}>
             <CardContent>
-                <Avatar
-                    alt="Remy Sharp"
-                    src={logoUrl}
-                    sx={{ width: 24, height: 24 }}
-                />
-                <Typography gutterBottom variant="h5" component="div">
-                    {companyName}
-                </Typography>
-                <Typography variant="h6" color="div">
-                    {jobRole}
-                </Typography>
-                <Typography variant="h6" color="div">
-                    {location}
-                </Typography>
-                <Typography variant="h6" color="div">
-                    Estimated Salary: {minJdSalary}$ - {maxJdSalary}$
-                </Typography>
-                <Typography variant="h6" color="div">
-                    About Company:
-                </Typography>
-                <Typography variant="h6" color="div">
-                    About us
-                </Typography>
-                <Typography variant="div" color="div">
-                    {jobDetailsFromCompany}
-                </Typography>
-                <Typography variant="h6" color="div">
-                    Minimum Experinece
-                </Typography>
-                <Typography variant="h6" color="div">
-                    {minExp}
-                </Typography>
+                <Box sx={{ display: 'flex', gap: '15px', flexDirection: 'column' }}>
+                    <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <Avatar
+                            alt="Remy Sharp"
+                            src={logoUrl}
+                            sx={{ width: 24, height: 40, objectFit: 'cover', objectPosition: 'center' }}
+                        />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            <Typography variant="h6" sx={{ textTransform: 'capitalize' }}>
+                                {companyName}
+                            </Typography>
+
+                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+                                {jobRole}
+                            </Typography>
+                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+                                {location}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <Typography variant="body1">
+                        Estimated Salary: {minJdSalary}$ - {maxJdSalary}$
+                    </Typography>
+                    <Box>
+                        <Typography variant="h6">
+                            About Company:
+                        </Typography>
+                        <Typography variant="body2">
+                            About us
+                        </Typography>
+                        <Typography variant="body2" className='job-details'>
+                            {jobDetailsFromCompany}
+                        </Typography>
+                    </Box>
+                    {
+                        minExp ?
+                            <Box>
+                                <Typography variant="body2">
+                                    Minimum Experinece
+                                </Typography>
+                                <Typography variant="body2">
+                                    {minExp}
+                                </Typography>
+                            </Box>
+                            : ""
+                    }
+                </Box>
             </CardContent>
             <CardActions>
                 <Button size="small">Apply</Button>
