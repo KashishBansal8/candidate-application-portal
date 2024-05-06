@@ -11,3 +11,15 @@
     -webkit-line-clamp: 6;
     line-clamp: 6;
 }
+
+.job-card-listing-wrapper {
+    overflow-x: unset;
+}
+
+.candidate-job-search-wrapper {
+    margin: 40px 30px;
+}
+
+.filter-wrapper {
+    overflow: hidden;
+}

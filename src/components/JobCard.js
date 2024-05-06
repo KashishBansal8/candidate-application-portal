@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -11,7 +11,9 @@ const JobCard = ({ jobData }) => {
     const { companyName, jdLink, jdUid, jobDetailsFromCompany, jobRole, location, logoUrl, maxExp, maxJdSalary, minExp, minJdSalary, salaryCurrencyCode } = jobData;
 
     return (
-        <Card sx={{ minWidth: 250, minHeight: 435 }}>
+        // Single JOb Card
+
+        <Card sx={{ minWidth: 250, minHeight: 435, maxWidth: 450 }}>
             <CardContent>
                 <Box sx={{ display: 'flex', gap: '15px', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -21,20 +23,31 @@ const JobCard = ({ jobData }) => {
                             sx={{ width: 24, height: 40, objectFit: 'cover', objectPosition: 'center' }}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                            <Typography variant="h6" sx={{ textTransform: 'capitalize' }}>
-                                {companyName}
-                            </Typography>
-
-                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
-                                {jobRole}
-                            </Typography>
-                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
-                                {location}
-                            </Typography>
+                            {
+                                companyName ?
+                                    <Typography variant="h6" sx={{ textTransform: 'capitalize' }}>
+                                        {companyName}
+                                    </Typography>
+                                    : "Company Name"
+                            }
+                            {
+                                jobRole ?
+                                    <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+                                        {jobRole}
+                                    </Typography>
+                                    : "Role"
+                            }
+                            {
+                                location ?
+                                    <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+                                        {location}
+                                    </Typography>
+                                    : ""
+                            }
                         </Box>
                     </Box>
                     <Typography variant="body1">
-                        Estimated Salary: {minJdSalary}$ - {maxJdSalary}$
+                        Estimated Salary: {minJdSalary ? minJdSalary + "$ -" : ""} {maxJdSalary ? maxJdSalary + "$" : ""}
                     </Typography>
                     <Box>
                         <Typography variant="h6">

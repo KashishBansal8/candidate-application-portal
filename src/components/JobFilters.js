@@ -10,7 +10,6 @@ import { experinece, noOfExployees, location, minBasePay, techStack, jobRoles } 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFilteredJobsData } from '../utils/jobDataSlice';
 import { updateExperience, updateLocation, updateMinBasePay, updateNoOfEmployees, updateRole, updateSearchCompanyName, updateTechStack } from '../utils/jobFilterSlice';
-import useJobdata from '../utils/useJobData';
 
 const JobFilters = () => {
     const [selectedRole, setSelectedRole] = useState([]);
@@ -25,6 +24,7 @@ const JobFilters = () => {
     const filteredJobsData = useSelector((store) => store.jobData.filteredJobsData);
     const dispatch = useDispatch();
 
+    // Handling multi dropdown values
     const handleMultiDropdownFilterValueChange = (event) => {
         const {
             target: { name },
@@ -59,8 +59,7 @@ const JobFilters = () => {
         }
     };
 
-    const fetchJobData = useJobdata();
-
+    // Filter values on change of role value
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
         const filteredJobs = filterFromData?.filter((data) =>
@@ -69,23 +68,26 @@ const JobFilters = () => {
             ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedRole, fetchJobData]);
+    }, [selectedRole]);
 
+    // Filter values on change of experience value
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
         const filteredJobs = filterFromData?.filter((data) => selectedExperience >= data.minExp && selectedExperience <= data.maxExp);
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedExperience, fetchJobData]);
+    }, [selectedExperience]);
 
+    // Filter values on change of location value
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
         const filteredJobs = filterFromData?.filter((data) => selectedLocation.some((location) => location.toLowerCase().includes(data.location.toLowerCase()) || location.toLowerCase() === "in-office" && data.location.toLowerCase() !== "remote" ? data : ""
         ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedLocation, fetchJobData]);
+    }, [selectedLocation]);
 
+    // Filter values on change of search input value
     useEffect(() => {
         if (!searchCompanyNameInput.length) {
             dispatch(updateFilteredJobsData(jobsData))
@@ -93,13 +95,13 @@ const JobFilters = () => {
         const filteredJobs = jobsData?.filter((data) => data.companyName.toLowerCase().includes(searchCompanyNameInput.toLowerCase()));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [searchCompanyNameInput, fetchJobData]);
+    }, [searchCompanyNameInput]);
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box>
             <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {/* Role Filter */}
-                <Grid xs={2} md={2}>
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
                     <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Role</InputLabel>
                         <Select
@@ -124,8 +126,8 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* No of Employees */}
-                <Grid xs={2} md={2}>
-                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
+                    <FormControl sx={{ m: 1, minWidth: 150 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Number Of Employees</InputLabel>
                         <Select
                             autoWidth
@@ -149,7 +151,7 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Experience */}
-                <Grid xs={2} md={2}>
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }} >
                         <InputLabel htmlFor="demo-customized-select-label">Experience</InputLabel>
                         <Select
@@ -162,14 +164,14 @@ const JobFilters = () => {
 
                         >
                             {experinece.map((value, index) => {
-                                return <MenuItem value={value}>{value}</MenuItem>;
+                                return <MenuItem key={index} value={value}>{value}</MenuItem>;
                             })}
                         </Select>
                     </FormControl>
                 </Grid>
 
                 {/* Location */}
-                <Grid xs={2} md={2}>
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
                     <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Remote</InputLabel>
                         <Select
@@ -193,7 +195,7 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Tech Stack */}
-                <Grid xs={2} md={2}>
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
                     <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Tech Stack</InputLabel>
                         <Select
@@ -217,7 +219,7 @@ const JobFilters = () => {
                 </Grid>
 
                 {/* Min Base Pay */}
-                <Grid xs={2} md={2}>
+                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
                         <InputLabel htmlFor="demo-customized-select-label">Min Base Pay</InputLabel>
                         <Select
@@ -229,7 +231,7 @@ const JobFilters = () => {
 
                         >
                             {minBasePay.map((value, index) => {
-                                return <MenuItem value={value}>{value}</MenuItem>;
+                                return <MenuItem key={index} value={value}>{value}</MenuItem>;
                             })}
                         </Select>
                     </FormControl>

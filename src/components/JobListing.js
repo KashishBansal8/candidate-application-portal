@@ -39,11 +39,11 @@ const JobListing = () => {
     }, [])
 
     return (
-        <Box >
-            <Grid container spacing={{ xs: 2, md: 2 }} >
+        <Box className="job-card-listing-wrapper">
+            <Grid container spacing={{ xs: 2 }} >
                 {
                     filteredJobsData?.map((jobData, index) =>
-                        <Grid xs={6} sm={4} md={4} key={index}>
+                        <Grid lg={4} sm={6} md={4} xs={12} key={index}>
                             <JobCard jobData={jobData} />
                         </Grid>
                     )

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const jobFilterSlice = createSlice({
     name: "JobFilter",
     initialState: {
-        experience: [],
+        experience: "",
         role: [],
         noOfEmployees: "",
         techStack: [],

@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 
 const CandidateJobSearchPage = () => {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '50px', margin: '40px 0' }}>
+        <Box className="candidate-job-search-wrapper" sx={{ display: 'flex', flexDirection: 'column', gap: '50px', alignItems: ' center' }}>
             <JobFilters />
             <JobListing />
         </Box>
