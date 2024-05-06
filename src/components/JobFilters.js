@@ -10,6 +10,8 @@ import { experinece, noOfExployees, location, minBasePay, techStack, jobRoles } 
 import { useDispatch, useSelector } from 'react-redux';
 import { type } from '@testing-library/user-event/dist/type';
 import { updateFilteredJobsData } from '../utils/jobDataSlice';
+import { updateExperience, updateLocation, updateMinBasePay, updateNoOfEmployees, updateRole, updateSearchCompanyName, updateTechStack } from '../utils/jobFilterSlice';
+import useJobdata from '../utils/useJobData';
 
 const JobFilters = () => {
     const [selectedRole, setSelectedRole] = useState([]);
@@ -33,26 +35,32 @@ const JobFilters = () => {
             setSelectedRole(
                 typeof roleVal === 'string' ? roleVal.split(',') : roleVal
             );
+            dispatch(updateRole(selectedRole));
         }
         else if (name === "noOfExployees") {
             const noOfEmployeesVal = event.target.value;
             setSelectedNoOfEmployees(
                 typeof noOfEmployeesVal === 'string' ? noOfEmployeesVal.split(',') : noOfEmployeesVal
             );
+            dispatch(updateNoOfEmployees(selectedNoOfEmployees));
         }
         else if (name === "location") {
             const locationVal = event.target.value;
             setSelectedLocation(
                 typeof locationVal === 'string' ? locationVal.split(',') : locationVal
             );
+            dispatch(updateLocation(selectedLocation));
         }
         else if (name === "techStack") {
             const techStackVal = event.target.value;
             setSelectedTechStack(
                 typeof techStackVal === 'string' ? techStackVal.split(',') : techStackVal
             );
+            dispatch(updateTechStack(selectedTechStack));
         }
     };
+
+    const fetchJobData = useJobdata();
 
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
@@ -62,14 +70,14 @@ const JobFilters = () => {
             ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedRole]);
+    }, [selectedRole, fetchJobData]);
 
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
         const filteredJobs = filterFromData?.filter((data) => selectedExperience >= data.minExp && selectedExperience <= data.maxExp);
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedExperience]);
+    }, [selectedExperience, fetchJobData]);
 
     useEffect(() => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
@@ -77,7 +85,7 @@ const JobFilters = () => {
         ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [selectedLocation]);
+    }, [selectedLocation, fetchJobData]);
 
     useEffect(() => {
         if (!searchCompanyNameInput.length) {
@@ -86,7 +94,7 @@ const JobFilters = () => {
         const filteredJobs = jobsData?.filter((data) => data.companyName.toLowerCase().includes(searchCompanyNameInput.toLowerCase()));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-    }, [searchCompanyNameInput]);
+    }, [searchCompanyNameInput, fetchJobData]);
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -148,7 +156,7 @@ const JobFilters = () => {
                             id="demo-customized-select"
                             name='experience'
                             value={selectedExperience}
-                            onChange={(e) => setSelectedExperience(e.target.value)}
+                            onChange={(e) => { setSelectedExperience(e.target.value); dispatch(updateExperience(selectedExperience)); }}
 
                         >
                             {experinece.map((value, index) => {
@@ -215,7 +223,7 @@ const JobFilters = () => {
                             id="demo-customized-select"
                             name='minBasePay'
                             value={selectedMinBasePay}
-                            onChange={(e) => setSelectedMinBasePay(e.target.value)}
+                            onChange={(e) => { setSelectedMinBasePay(e.target.value); dispatch(updateMinBasePay(selectedMinBasePay)); }}
 
                         >
                             {minBasePay.map((value, index) => {
@@ -235,7 +243,7 @@ const JobFilters = () => {
                         placeholder="Search Company Name"
                         size="small"
                         value={searchCompanyNameInput}
-                        onInput={(e) => setSearchCompanyNameInput(e.target.value)}
+                        onInput={(e) => { setSearchCompanyNameInput(e.target.value); dispatch(updateSearchCompanyName(searchCompanyNameInput)); }}
                     />
                 </Grid>
             </Grid>
