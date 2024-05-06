@@ -64,7 +64,6 @@ const JobFilters = () => {
         const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
         const filteredJobs = filterFromData?.filter((data) =>
             selectedRole.some((role) => data.jobRole.toLowerCase().includes(role.toLowerCase())
-                || data.jobDetailsFromCompany.toLowerCase().includes(role.toLowerCase())
             ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
@@ -97,12 +96,21 @@ const JobFilters = () => {
         dispatch(updateFilteredJobsData(filteredJobs))
     }, [searchCompanyNameInput]);
 
+    useEffect(() => {
+        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
+        const filteredJobs = filterFromData?.filter((data) =>
+            selectedTechStack.some((techStack) => data.jobDetailsFromCompany.toLowerCase().includes(techStack.toLowerCase())
+            ));
+
+        dispatch(updateFilteredJobsData(filteredJobs))
+    }, [selectedTechStack])
+
     return (
         <Box>
             <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {/* Role Filter */}
-                <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
+                <Grid lg={2} sm={12} md={2} xs={12} className="filter-wrapper">
+                    <FormControl sx={{ m: 1, minWidth: 100, width: 200 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Role</InputLabel>
                         <Select
                             autoWidth
@@ -127,7 +135,7 @@ const JobFilters = () => {
 
                 {/* No of Employees */}
                 <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl sx={{ m: 1, minWidth: 150 }} variant="standard">
+                    <FormControl sx={{ m: 1, minWidth: 100, width: 200 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Number Of Employees</InputLabel>
                         <Select
                             autoWidth
@@ -152,7 +160,7 @@ const JobFilters = () => {
 
                 {/* Experience */}
                 <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }} >
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100, width: 200 }} >
                         <InputLabel htmlFor="demo-customized-select-label">Experience</InputLabel>
                         <Select
                             autoWidth
@@ -172,7 +180,7 @@ const JobFilters = () => {
 
                 {/* Location */}
                 <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
+                    <FormControl sx={{ m: 1, minWidth: 100, width: 200 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Remote</InputLabel>
                         <Select
                             labelId="demo-multiple-name-label"
@@ -196,7 +204,7 @@ const JobFilters = () => {
 
                 {/* Tech Stack */}
                 <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl sx={{ m: 1, minWidth: 100 }} variant="standard">
+                    <FormControl sx={{ m: 1, minWidth: 100, width: 200 }} variant="standard">
                         <InputLabel id="demo-multiple-name-label">Tech Stack</InputLabel>
                         <Select
                             labelId="demo-multiple-name-label"
@@ -220,7 +228,7 @@ const JobFilters = () => {
 
                 {/* Min Base Pay */}
                 <Grid lg={2} sm={2} md={2} xs={12} className="filter-wrapper">
-                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100 }}>
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 100, width: 200 }}>
                         <InputLabel htmlFor="demo-customized-select-label">Min Base Pay</InputLabel>
                         <Select
                             labelId="demo-customized-select-label"
