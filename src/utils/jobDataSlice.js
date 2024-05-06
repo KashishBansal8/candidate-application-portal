@@ -5,7 +5,8 @@ const jobDataSlice = createSlice({
     initialState: {
         jobsData: [],
         filteredJobsData: [],
-        isLoadingJobData: true
+        isLoadingJobData: false,
+        pageNumber: 1
     },
     reducers: {
         addJobsData: (state, action) => {
@@ -17,10 +18,13 @@ const jobDataSlice = createSlice({
         },
         updateFilteredJobsData: (state, action) => {
             state.filteredJobsData = action.payload;
+        },
+        updatePageNumber: (state, action) => {
+            state.pageNumber = action.payload;
         }
     }
 })
 
-export const { addJobsData, updateLoadingJobdata, updateFilteredJobsData } = jobDataSlice.actions;
+export const { addJobsData, updateLoadingJobdata, updateFilteredJobsData, updatePageNumber } = jobDataSlice.actions;
 
 export default jobDataSlice.reducer;

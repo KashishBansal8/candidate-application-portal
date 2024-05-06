@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import useJobdata from '../utils/useJobData'
 import JobCard from './JobCard';
 import Box from '@mui/material/Box';
@@ -6,19 +6,38 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useSelector } from 'react-redux';
 
 const JobListing = () => {
-    const jobData = useJobdata();
+    const fetchJobData = useJobdata();
+    const observerTarget = useRef(null);
 
     const isLoadingJobData = useSelector((store) => store.jobData.isLoadingJobData);
     const filteredJobsData = useSelector((store) => store.jobData.filteredJobsData);
-    // console.log("isLoadingJobData", isLoadingJobData, filteredJobsData)
 
-    // const { jdList } = jobData;
-    // console.log("jobData", jobData)
-    // const jobsData = filteredJobsData.len/gth ? filteredJobsData : jobData;
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting) {
+                    fetchJobData();
+                }
+            },
+            { threshold: 1 }
+        );
 
-    if (isLoadingJobData) {
-        return (<h1>Loading...</h1>)
-    }
+        if (observerTarget.current) {
+            observer.observe(observerTarget.current);
+        }
+
+        return () => {
+            if (observerTarget.current) {
+                observer.unobserve(observerTarget.current);
+            }
+        };
+    }, [fetchJobData]);
+
+
+    useEffect(() => {
+        fetchJobData();
+    }, [])
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -29,6 +48,9 @@ const JobListing = () => {
                         </Grid>
                     )
                 }
+                {isLoadingJobData && <div>Loading...</div>}
+
+                <div ref={observerTarget}></div>
             </Grid>
         </Box>
     )

@@ -28,7 +28,6 @@ const JobFilters = () => {
         const {
             target: { name },
         } = event;
-        console.log(event.target.name)
         if (name === "role") {
             const roleVal = event.target.value;
             setSelectedRole(
@@ -63,7 +62,6 @@ const JobFilters = () => {
             ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-        console.log("exp", filteredJobs)
     }, [selectedRole]);
 
     useEffect(() => {
@@ -71,7 +69,6 @@ const JobFilters = () => {
         const filteredJobs = filterFromData?.filter((data) => selectedExperience >= data.minExp && selectedExperience <= data.maxExp);
 
         dispatch(updateFilteredJobsData(filteredJobs))
-        console.log("exp", filteredJobs)
     }, [selectedExperience]);
 
     useEffect(() => {
@@ -80,15 +77,13 @@ const JobFilters = () => {
         ));
 
         dispatch(updateFilteredJobsData(filteredJobs))
-        console.log("loc", filteredJobs)
     }, [selectedLocation]);
 
     useEffect(() => {
         if (!searchCompanyNameInput.length) {
             dispatch(updateFilteredJobsData(jobsData))
         }
-        const filterFromData = filteredJobsData.length ? filteredJobsData : jobsData;
-        const filteredJobs = filterFromData?.filter((data) => data.companyName.toLowerCase().includes(searchCompanyNameInput.toLowerCase()));
+        const filteredJobs = jobsData?.filter((data) => data.companyName.toLowerCase().includes(searchCompanyNameInput.toLowerCase()));
 
         dispatch(updateFilteredJobsData(filteredJobs))
     }, [searchCompanyNameInput]);
